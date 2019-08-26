@@ -7,9 +7,9 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/test", {useNewUrlParser: true});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
-const Property = require("./models/property");
+const Report = require("./models/report");
 
-const propertyController = require("./controllers/propertyController");
+const reportController = require("./controllers/reportController");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -23,9 +23,11 @@ app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-app.get("/reports/new", propertyController.new);
-app.post("/reports/create", propertyController.create, 
-    propertyController.redirectView);
+app.get("/reports/index", reportController.index,
+    reportController.indexView);
+app.get("/reports/new", reportController.new);
+app.post("/reports/create", reportController.create, 
+    reportController.redirectView);
 
 app.listen(port, () => {
   console.log(`Now listening on port ${port}`)

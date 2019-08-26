@@ -1,0 +1,23 @@
+<h2>Reports Table</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Brand</th>
+      <th>Flag</th>
+      <th>Site Code</th>
+      <th>City</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% reports.forEach(report => { %>
+    <tr>
+      <td><%= report.brand %></td>
+      <td><%= report.flag %></td>
+      <td><%= report.code %></td>
+      <td><%= report.address.city %></td>
+      <td><%= report.address.state %></td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>

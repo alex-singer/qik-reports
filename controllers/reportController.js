@@ -1,4 +1,4 @@
-const Property = require("../models/property");
+const Property = require("../models/report");
 
 module.exports = {
   new: (req, res) => {
@@ -6,18 +6,17 @@ module.exports = {
   },
   create: (req, res, next) => {
     let propertyParams = {
-      name: req.body.name,
+      brand: req.body.brand,
+      flag: req.body.flag,
       code: req.body.code,
       address: {
         city: req.body.city,
         state: req.body.state
       }
     };
-
-
     Property.create(propertyParams)
       .then(user => {
-        res.locals.redirect = "/reports/new";
+        res.locals.redirect = "/reports/index";
         // res.locals.property = property;
         next();
       })
@@ -30,5 +29,19 @@ module.exports = {
     let redirectPath = res.locals.redirect;
     if (redirectPath) res.redirect(redirectPath);
     else next();
+  },
+  index: (req, res, next) => {
+    Property.find()
+      .then(reports => {
+        res.locals.reports = reports;
+        next();
+      })
+      .catch(error => {
+        console.log(`Error fetching reports: ${error.message}`);
+        res.redirect("/");
+      });
+  },
+  indexView: (req, res) => {
+    res.render("reports/index");
   }
 };
