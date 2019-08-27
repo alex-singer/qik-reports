@@ -19,6 +19,11 @@ app.use(
   })
 );
 
+const methodOverride = require("method-override");
+app.use(methodOverride("_method", {
+  methods: ["POST", "GET"]
+}));
+
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
@@ -30,6 +35,9 @@ app.post("/reports/create", reportController.create,
     reportController.redirectView);
 app.get("/reports/:id", reportController.show,
     reportController.showView);
+app.get("/reports/:id/edit", reportController.edit);
+app.put("/reports/:id/update", reportController.update,
+    reportController.redirectView);
 
 app.listen(port, () => {
   console.log(`Now listening on port ${port}`)

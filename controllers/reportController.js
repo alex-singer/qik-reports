@@ -58,5 +58,41 @@ module.exports = {
   },
   showView: (req, res) => {
     res.render("reports/show");
+  },
+  edit: (req, res, next) => {
+    let reportId = req.params.id;
+    Report.findById(reportId)
+      .then(report => {
+        res.render("reports/edit", {
+          report: report
+        });
+      })
+      .catch(error => {
+        console.log(`Erro fetching report by ID: ${error.message}`);
+      });
+  },
+  update: (req, res, next) => {
+    let reportId = req.params.id;
+    let reportParams = {
+      brand: req.body.brand,
+      flag: req.body.flag,
+      code: req.body.code,
+      address: {
+        city: req.body.city,
+        state: req.body.state
+      }
+    };
+    Report.findByIdAndUpdate(reportId, {
+      $set: reportParams
+    })
+      .then(report => {
+        res.locals.redirect = `/reports/${reportId}`;
+        res.locals.report = report;
+        next();
+      })
+      .catch(error => {
+        console.log(`Error updating report by ID: ${error.message}`);
+        next(error);
+      });
   }
 };

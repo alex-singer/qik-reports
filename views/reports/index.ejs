@@ -21,6 +21,11 @@
       <td><%= report.code %></td>
       <td><%= report.address.city %></td>
       <td><%= report.address.state %></td>
+      <td>
+        <a href="<%= `/reports/${report._id}/edit` %>">
+          Edit
+        </a>
+      </td>
     </tr>
     <% }); %>
   </tbody>

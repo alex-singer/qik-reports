@@ -1,0 +1,27 @@
+<div class="data-form">
+  <form action="<%= `/reports/${report._id}/update?_method=PUT` %>" 
+      method="post">
+    <h2>Edit Report:</h2>
+    <label for="inputBrand">Brand</label>
+    <input type="text" name="brand" id="inputBrand" 
+        value="<%= report.brand %>">
+    <br>
+    <label for="inputFlag">Flag</label>
+    <input type="text" name="flag" id="inputFlag"
+        value="<%= report.flag %>">
+    <br>
+    <label for="inputCode">Code</label>
+    <input type="text" name="code" id="inputCode"
+        value="<%= report.code %>">
+    <br>
+    <label for="inputCity">City</label>
+    <input type="text" name="city" id="inputCity"
+        value="<%= report.city %>">
+    <br>
+    <label for="inputState">State</label>
+    <input type="text" name="state" id="inputState"
+        value="<%= report.state %>">
+    <br>
+    <button type="submit">Update</button>
+  </form>
+</div>
