@@ -12,7 +12,11 @@
   <tbody>
     <% reports.forEach(report => { %>
     <tr>
-      <td><%= report.brand %></td>
+      <td>
+        <a href="<%= `/reports/${report._id}` %>">
+          <%= report.brand %>
+        </a>
+      </td>
       <td><%= report.flag %></td>
       <td><%= report.code %></td>
       <td><%= report.address.city %></td>

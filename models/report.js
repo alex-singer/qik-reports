@@ -17,3 +17,5 @@ reportSchema.virtual("fullAddress")
 });
 
 module.exports = mongoose.model("Report", reportSchema);
+
+// This will need to get linked to a particular user

@@ -28,6 +28,8 @@ app.get("/reports/index", reportController.index,
 app.get("/reports/new", reportController.new);
 app.post("/reports/create", reportController.create, 
     reportController.redirectView);
+app.get("/reports/:id", reportController.show,
+    reportController.showView);
 
 app.listen(port, () => {
   console.log(`Now listening on port ${port}`)
