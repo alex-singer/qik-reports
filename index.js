@@ -38,6 +38,8 @@ app.get("/reports/:id", reportController.show,
 app.get("/reports/:id/edit", reportController.edit);
 app.put("/reports/:id/update", reportController.update,
     reportController.redirectView);
+app.delete("/reports/:id/delete", reportController.delete,
+    reportController.redirectView);
 
 app.listen(port, () => {
   console.log(`Now listening on port ${port}`)

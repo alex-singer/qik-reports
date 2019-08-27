@@ -94,5 +94,17 @@ module.exports = {
         console.log(`Error updating report by ID: ${error.message}`);
         next(error);
       });
+  },
+  delete: (req, res, next) => {
+    let reportId = req.params.id;
+    Report.findByIdAndRemove(reportId)
+      .then(() => {
+        res.locals.redirect = "/reports/index";
+        next();
+      })
+      .catch(error => {
+        console.log(`Error deleting report by ID: ${error.message}`);
+        next();
+      });
   }
 };

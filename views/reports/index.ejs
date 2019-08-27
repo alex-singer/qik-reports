@@ -7,6 +7,8 @@
       <th>Site Code</th>
       <th>City</th>
       <th>State</th>
+      <th>Edit</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -24,6 +26,12 @@
       <td>
         <a href="<%= `/reports/${report._id}/edit` %>">
           Edit
+        </a>
+      </td>
+      <td>
+        <a href="<%= `/reports/${report._id}/delete?_method=DELETE` %>" 
+          onclick="return confirm('Are you sure you want to delete this record?')">
+          Delete
         </a>
       </td>
     </tr>
