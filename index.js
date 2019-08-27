@@ -28,7 +28,7 @@ app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-app.get("/reports/index", reportController.index,
+app.get("/reports", reportController.index,
     reportController.indexView);
 app.get("/reports/new", reportController.new);
 app.post("/reports/create", reportController.create, 

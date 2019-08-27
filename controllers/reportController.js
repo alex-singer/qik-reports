@@ -16,7 +16,7 @@ module.exports = {
     };
     Report.create(propertyParams)
       .then(user => {
-        res.locals.redirect = "/reports/index";
+        res.locals.redirect = "/reports";
         // res.locals.property = property;
         next();
       })
@@ -99,7 +99,7 @@ module.exports = {
     let reportId = req.params.id;
     Report.findByIdAndRemove(reportId)
       .then(() => {
-        res.locals.redirect = "/reports/index";
+        res.locals.redirect = "/reports";
         next();
       })
       .catch(error => {
