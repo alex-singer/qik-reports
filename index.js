@@ -24,6 +24,24 @@ app.use(methodOverride("_method", {
   methods: ["POST", "GET"]
 }));
 
+const expressSession = require("express-session");
+const cookieParser = require("cookie-parser");
+const connectFlash = require("connect-flash");
+app.use(cookieParser("secret_passcode"));
+app.use(expressSession({
+  secret: "secret_passcode",
+  cookie: {
+    maxAge:4000000
+  },
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(connectFlash());
+app.use((req, res, next) => {
+  res.locals.flashMessages = req.flash();
+  next();
+});
+
 app.get("/", function (req, res) {
   res.send("Hello World");
 });

@@ -15,15 +15,18 @@ module.exports = {
       }
     };
     Report.create(propertyParams)
-      .then(user => {
+      .then(report => {
+        req.flash("success", `Report for site ${report.code} has been created`);
         res.locals.redirect = "/reports";
-        // res.locals.property = property;
+        res.locals.report = report;
         next();
       })
-    .catch(error => {
-      console.log(`Error saving user: ${error.message}`);
-      next(error);
-    });
+      .catch(error => {
+        console.log(`Error saving user: ${error.message}`);
+        res.locals.redirect = "/reports/new";
+        req.flash("error", `Failed to create report for site code ${error.message}.`);
+        next();
+      });
   },
   redirectView: (req, res, next) => {
     let redirectPath = res.locals.redirect;
