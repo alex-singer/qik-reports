@@ -16,7 +16,10 @@ module.exports = {
     res.render("users/new");
   },
   create: (req, res, next) => {
-    User.create(getUserParams(req.body))
+    if (req.skip) {
+      next();
+    } else {
+      User.create(getUserParams(req.body))
       .then(user => {
         req.flash("success", `${user.fullName} has been created`);
         res.locals.redirect = "/users";
@@ -29,6 +32,7 @@ module.exports = {
         req.flash("error", `Failed to create new user ${error.message}.`);
         next();
       });
+    }
   },
   redirectView: (req, res, next) => {
     let redirectPath = res.locals.redirect;
@@ -132,6 +136,25 @@ module.exports = {
     .catch(error => {
       console.log(`Error loggin in user: ${error.message}`);
       next(error);
+    });
+  },
+  validate: (req, res, next) => {
+    req.sanitizeBody("email").normalizeEmail({
+        all_lowercase: true
+      }).trim();
+    req.check("email", "Email is invalid").isEmail();
+    req.check("password", "Password cannot be blank").notEmpty();
+
+    req.getValidationResult().then((error) => {
+      if (!error.isEmpty()) {
+        let messages = error.array().map(e => e.msg);
+        req.skip = true;
+        req.flash("error", messages.join(" and "));
+        res.locals.redirect = "/users/new";
+        next();
+      } else {
+        next();
+      }
     });
   }
 };

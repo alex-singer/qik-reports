@@ -21,6 +21,7 @@ app.use(
     extended: false
   })
 );
+const expressValidator = require("express-validator");
 
 const methodOverride = require("method-override");
 app.use(methodOverride("_method", {
@@ -45,15 +46,18 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(expressValidator());
+
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
 
-
 app.get("/users", userController.index,
     userController.indexView);
 app.get("/users/new", userController.new);
-app.post("/users/create", userController.create, 
+app.post("/users/create", 
+    userController.validate,
+    userController.create, 
     userController.redirectView);
 app.get("/users/login", userController.login);
 app.post("/users/login", userController.authenticate,
