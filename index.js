@@ -55,6 +55,9 @@ app.get("/users", userController.index,
 app.get("/users/new", userController.new);
 app.post("/users/create", userController.create, 
     userController.redirectView);
+app.get("/users/login", userController.login);
+app.post("/users/login", userController.authenticate,
+    userController.redirectView);
 app.get("/users/:id", userController.show,
     userController.showView);
 app.get("/users/:id/edit", userController.edit);
