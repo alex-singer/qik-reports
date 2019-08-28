@@ -1,20 +1,23 @@
 const Report = require("../models/report");
 
+const getReportParams = (body) => {
+  return {
+    brand: body.brand,
+    flag: body.flag,
+    code: body.code,
+    address: {
+      city: body.city,
+      state: body.state
+    }
+  };
+};
+
 module.exports = {
   new: (req, res) => {
-    res.render("createReport");
+    res.render("reports/new");
   },
   create: (req, res, next) => {
-    let propertyParams = {
-      brand: req.body.brand,
-      flag: req.body.flag,
-      code: req.body.code,
-      address: {
-        city: req.body.city,
-        state: req.body.state
-      }
-    };
-    Report.create(propertyParams)
+    Report.create(getReportParams(req.body))
       .then(report => {
         req.flash("success", `Report for site ${report.code} has been created`);
         res.locals.redirect = "/reports";
@@ -76,15 +79,7 @@ module.exports = {
   },
   update: (req, res, next) => {
     let reportId = req.params.id;
-    let reportParams = {
-      brand: req.body.brand,
-      flag: req.body.flag,
-      code: req.body.code,
-      address: {
-        city: req.body.city,
-        state: req.body.state
-      }
-    };
+    reportParams = getReportParams(res.body);
     Report.findByIdAndUpdate(reportId, {
       $set: reportParams
     })

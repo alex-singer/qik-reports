@@ -1,20 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Qik Report</title>
-  </head>
-  <body>
-    <div class="flashes">
-      <% if (flashMessages) { %>
-        <% if (flashMessages.success) { %>
-          <div class="flash success"><%= flashMessages.success %></div>
-        <% } else if (flashMessages.error) { %>
-          <div class="flash error"><%= flashMessages.error %></div>
-        <% } %>
-      <% } %>
-    </div>
     <form action="/reports/create" method="post">
       <label for="brand">Brand</label>
       <input type="text" name="brand" id="brand" value="">
@@ -33,5 +16,3 @@
       <br>
       <button type="submit">Submit</button>
     </form>
-  </body>
-</html>

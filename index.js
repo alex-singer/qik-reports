@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const layouts = require("express-ejs-layouts");
 
 const port = 3000;
 
@@ -13,6 +14,7 @@ const reportController = require("./controllers/reportController");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(layouts);
 app.use(
   express.urlencoded({
     extended: false
