@@ -10,6 +10,7 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 const Report = require("./models/report");
 
+const userController = require("./controllers/userController");
 const reportController = require("./controllers/reportController");
 
 app.set("view engine", "ejs");
@@ -47,6 +48,20 @@ app.use((req, res, next) => {
 app.get("/", function (req, res) {
   res.send("Hello World");
 });
+
+
+app.get("/users", userController.index,
+    userController.indexView);
+app.get("/users/new", userController.new);
+app.post("/users/create", userController.create, 
+    userController.redirectView);
+app.get("/users/:id", userController.show,
+    userController.showView);
+app.get("/users/:id/edit", userController.edit);
+app.put("/users/:id/update", userController.update,
+    userController.redirectView);
+app.delete("/users/:id/delete", userController.delete,
+    userController.redirectView);
 
 app.get("/reports", reportController.index,
     reportController.indexView);
