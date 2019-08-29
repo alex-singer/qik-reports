@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const layouts = require("express-ejs-layouts");
+const User = require("./models/user");
 
 const port = 3000;
 
@@ -22,6 +23,7 @@ app.use(
   })
 );
 const expressValidator = require("express-validator");
+const passport = require("passport");
 
 const methodOverride = require("method-override");
 app.use(methodOverride("_method", {
@@ -40,16 +42,24 @@ app.use(expressSession({
   resave: false,
   saveUninitialized: false
 }));
-app.use(connectFlash());
-app.use((req, res, next) => {
-  res.locals.flashMessages = req.flash();
-  next();
-});
 
 app.use(expressValidator());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+app.use(connectFlash());
+
+app.use((req, res, next) => {
+  res.locals.loggedIn = req.isAuthenticated();
+  res.locals.currentUser = req.user;
+  res.locals.flashMessages = req.flash();
+  next();
+});
 app.get("/", function (req, res) {
-  res.send("Hello World");
+  res.render("home");
 });
 
 app.get("/users", userController.index,
@@ -60,7 +70,10 @@ app.post("/users/create",
     userController.create, 
     userController.redirectView);
 app.get("/users/login", userController.login);
-app.post("/users/login", userController.authenticate,
+app.post("/users/login", 
+    userController.authenticate);
+app.get("/users/logout",
+    userController.logout,
     userController.redirectView);
 app.get("/users/:id", userController.show,
     userController.showView);
