@@ -3,6 +3,8 @@ const app = express();
 const layouts = require("express-ejs-layouts");
 const User = require("./models/user");
 
+const router = require("./routes/index");
+
 const port = 3000;
 
 const mongoose = require("mongoose");
@@ -10,9 +12,6 @@ mongoose.connect("mongodb://localhost:27017/test", {useNewUrlParser: true});
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 const Report = require("./models/report");
-
-const userController = require("./controllers/userController");
-const reportController = require("./controllers/reportController");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -58,43 +57,8 @@ app.use((req, res, next) => {
   res.locals.flashMessages = req.flash();
   next();
 });
-app.get("/", function (req, res) {
-  res.render("home");
-});
 
-app.get("/users", userController.index,
-    userController.indexView);
-app.get("/users/new", userController.new);
-app.post("/users/create", 
-    userController.validate,
-    userController.create, 
-    userController.redirectView);
-app.get("/users/login", userController.login);
-app.post("/users/login", 
-    userController.authenticate);
-app.get("/users/logout",
-    userController.logout,
-    userController.redirectView);
-app.get("/users/:id", userController.show,
-    userController.showView);
-app.get("/users/:id/edit", userController.edit);
-app.put("/users/:id/update", userController.update,
-    userController.redirectView);
-app.delete("/users/:id/delete", userController.delete,
-    userController.redirectView);
-
-app.get("/reports", reportController.index,
-    reportController.indexView);
-app.get("/reports/new", reportController.new);
-app.post("/reports/create", reportController.create, 
-    reportController.redirectView);
-app.get("/reports/:id", reportController.show,
-    reportController.showView);
-app.get("/reports/:id/edit", reportController.edit);
-app.put("/reports/:id/update", reportController.update,
-    reportController.redirectView);
-app.delete("/reports/:id/delete", reportController.delete,
-    reportController.redirectView);
+app.use("/", router);
 
 app.listen(port, () => {
   console.log(`Now listening on port ${port}`)
